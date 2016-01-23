@@ -4,6 +4,7 @@
     xmlns:vm="clr-namespace:HsrOrderApp.UI.WPF.ViewModels"
     xmlns:conv="clr-namespace:HsrOrderApp.UI.WPF.Converters"
     xmlns:WPF="clr-namespace:HsrOrderApp.UI.WPF">
+    
     <DataTemplate DataType="{x:Type vm:MainWindowViewModel}">
         <WPF:MainWindow  />
     </DataTemplate>
@@ -19,7 +20,10 @@
     <DataTemplate  DataType="{x:Type vm:Security.UserViewModel}">
         <vw:UserView />
     </DataTemplate>
-    
+    <DataTemplate  DataType="{x:Type vm:Supplier.SupplierViewModel}">
+        <vw:SupplierView />
+    </DataTemplate>
+
     <conv:DateTimeConverter x:Key="dateTimeConv" />
     <conv:DoubleConverter x:Key="doubleConv" />
     <conv:DecimalConverter x:Key="decimalConv" />

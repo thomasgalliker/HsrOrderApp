@@ -3,10 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
 using HsrOrderApp.SharedLibraries.DTO;
 using HsrOrderApp.SharedLibraries.DTO.Requests_Responses;
 using HsrOrderApp.SharedLibraries.ServiceInterfaces;
 using HsrOrderApp.SharedLibraries.SharedEnums;
+
 using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
 
 #endregion
@@ -17,8 +19,8 @@ namespace HsrOrderApp.UI.PresentationLogic
     {
         #region static private fields
 
-        private static ServiceFacade _instance;
-        private static IAdminService _service;
+        private static ServiceFacade serviceFacade;
+        private static IAdminService adminService;
 
         #endregion
 
@@ -26,34 +28,36 @@ namespace HsrOrderApp.UI.PresentationLogic
 
         private ServiceFacade()
         {
-            if (_service == null)
-                _service = ServiceFactory.GetCreatorInstance().CreateBusinessLayerInstance();
+            if (adminService == null)
+            {
+                adminService = ServiceFactory.GetCreatorInstance().CreateBusinessLayerInstance();
+            }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static IServiceFacade GetInstance()
         {
-            if (_instance == null)
+            if (serviceFacade == null)
             {
-                _instance = new ServiceFacade();
+                serviceFacade = new ServiceFacade();
             }
-            return _instance;
+            return serviceFacade;
         }
 
         /// <summary>
-        /// ctor for testing
+        ///     ctor for testing
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static IServiceFacade GetInstance(IAdminService service)
         {
-            _service = service;
-            if (_instance == null)
+            adminService = service;
+            if (serviceFacade == null)
             {
-                _instance = new ServiceFacade();
+                serviceFacade = new ServiceFacade();
             }
-            return _instance;
+            return serviceFacade;
         }
 
         #endregion
@@ -64,12 +68,13 @@ namespace HsrOrderApp.UI.PresentationLogic
         {
             get
             {
-                if (_service == null)
-                    _service = ServiceFactory.GetCreatorInstance().CreateBusinessLayerInstance();
-                return _service;
+                if (adminService == null)
+                {
+                    adminService = ServiceFactory.GetCreatorInstance().CreateBusinessLayerInstance();
+                }
+                return adminService;
             }
         }
-
 
         #endregion
 
@@ -82,24 +87,27 @@ namespace HsrOrderApp.UI.PresentationLogic
                 GetOrderRequest request = new GetOrderRequest();
                 request.Id = id;
 
-                GetOrderResponse response = Service.GetOrderById(request);
+                GetOrderResponse response = this.Service.GetOrderById(request);
                 return response.Order;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new OrderDTO();
             }
         }
 
         public IList<OrderListDTO> GetOrdersByCustomer(int customerId)
         {
-            return getOrders(OrderSearchType.ByCustomer, customerId);
+            return this.GetOrders(OrderSearchType.ByCustomer, customerId);
         }
 
         public IList<OrderListDTO> GetAllOrders()
         {
-            return getOrders(OrderSearchType.None, default(int));
+            return this.GetOrders(OrderSearchType.None, default(int));
         }
 
         public void StoreOrder(OrderDTO order)
@@ -108,12 +116,15 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 StoreOrderRequest request = new StoreOrderRequest();
                 request.Order = order;
-                StoreOrderResponse response = Service.StoreOrder(request);
+                StoreOrderResponse response = this.Service.StoreOrder(request);
                 order.Id = response.Id;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
@@ -123,27 +134,33 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 DeleteOrderRequest request = new DeleteOrderRequest();
                 request.Id = orderId;
-                DeleteOrderResponse response = Service.DeleteOrder(request);
+                DeleteOrderResponse response = this.Service.DeleteOrder(request);
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
-        private IList<OrderListDTO> getOrders(OrderSearchType searchType, int customerid)
+        private IList<OrderListDTO> GetOrders(OrderSearchType searchType, int customerid)
         {
             try
             {
                 GetOrdersRequest request = new GetOrdersRequest();
                 request.SearchType = searchType;
                 request.CustomerId = customerid;
-                GetOrdersResponse response = Service.GetOrdersByCriteria(request);
+                GetOrdersResponse response = this.Service.GetOrdersByCriteria(request);
                 return response.Orders;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new List<OrderListDTO>();
             }
         }
@@ -158,29 +175,32 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 GetCustomerRequest request = new GetCustomerRequest();
                 request.CustomerId = id;
-                GetCustomerResponse response = Service.GetCustomerById(request);
+                GetCustomerResponse response = this.Service.GetCustomerById(request);
                 return response.Customer;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new CustomerDTO();
             }
         }
 
         public IList<CustomerListDTO> GetCustomersByName(string name)
         {
-            return getCustomers(CustomerSearchType.ByName, name, default(string));
+            return this.GetCustomers(CustomerSearchType.ByName, name, default(string));
         }
 
         public IList<CustomerListDTO> GetCustomersByCity(string city)
         {
-            return getCustomers(CustomerSearchType.ByName, default(string), city);
+            return this.GetCustomers(CustomerSearchType.ByName, default(string), city);
         }
 
         public IList<CustomerListDTO> GetAllCustomers()
         {
-            return getCustomers(CustomerSearchType.None, default(string), default(string));
+            return this.GetCustomers(CustomerSearchType.None, default(string), default(string));
         }
 
         public void StoreCustomer(CustomerDTO customer)
@@ -189,12 +209,15 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 StoreCustomerRequest request = new StoreCustomerRequest();
                 request.Customer = customer;
-                StoreCustomerResponse response = Service.StoreCustomer(request);
+                StoreCustomerResponse response = this.Service.StoreCustomer(request);
                 customer.Id = response.CustomerId;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
@@ -204,15 +227,18 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 DeleteCustomerRequest request = new DeleteCustomerRequest();
                 request.CustomerId = customerId;
-                DeleteCustomerResponse response = Service.DeleteCustomer(request);
+                DeleteCustomerResponse response = this.Service.DeleteCustomer(request);
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
-        private IList<CustomerListDTO> getCustomers(CustomerSearchType searchType, string name, string city)
+        private IList<CustomerListDTO> GetCustomers(CustomerSearchType searchType, string name, string city)
         {
             try
             {
@@ -220,12 +246,15 @@ namespace HsrOrderApp.UI.PresentationLogic
                 request.SearchType = searchType;
                 request.CustomerName = name;
                 request.City = city;
-                GetCustomersResponse response = Service.GetCustomersByCriteria(request);
+                GetCustomersResponse response = this.Service.GetCustomersByCriteria(request);
                 return response.Customers;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new List<CustomerListDTO>();
             }
         }
@@ -240,29 +269,32 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 GetProductRequest request = new GetProductRequest();
                 request.Id = id;
-                GetProductResponse response = Service.GetProductById(request);
+                GetProductResponse response = this.Service.GetProductById(request);
                 return response.Product;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new ProductDTO();
             }
         }
 
         public IList<ProductDTO> GetProductsByName(string name)
         {
-            return getProducts(ProductSearchType.ByName, name, default(string));
+            return this.GetProducts(ProductSearchType.ByName, name, default(string));
         }
 
         public IList<ProductDTO> GetProductsByCategory(string category)
         {
-            return getProducts(ProductSearchType.ByCategory, default(string), category);
+            return this.GetProducts(ProductSearchType.ByCategory, default(string), category);
         }
 
         public IList<ProductDTO> GetAllProducts()
         {
-            return getProducts(ProductSearchType.None, default(string), default(string));
+            return this.GetProducts(ProductSearchType.None, default(string), default(string));
         }
 
         public void StoreProduct(ProductDTO product)
@@ -271,12 +303,15 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 StoreProductRequest request = new StoreProductRequest();
                 request.Product = product;
-                StoreProductResponse response = Service.StoreProduct(request);
+                StoreProductResponse response = this.Service.StoreProduct(request);
                 product.Id = response.Id;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
@@ -286,11 +321,14 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 DeleteProductRequest request = new DeleteProductRequest();
                 request.Id = productId;
-                DeleteProductResponse response = Service.DeleteProduct(request);
+                DeleteProductResponse response = this.Service.DeleteProduct(request);
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
@@ -302,17 +340,20 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 GetEstimatedDeliveryTimeRequest request = new GetEstimatedDeliveryTimeRequest();
                 request.Id = productId;
-                GetEstimatedDeliveryTimeResponse response = Service.GetEstimatedDeliveryTime(request);
+                GetEstimatedDeliveryTimeResponse response = this.Service.GetEstimatedDeliveryTime(request);
                 unitsAvailable = response.UnitsAvailable;
                 estimatedDeliveryTime = response.EstimatedDeliveryTime;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
-        private IList<ProductDTO> getProducts(ProductSearchType searchType, string name, string category)
+        private IList<ProductDTO> GetProducts(ProductSearchType searchType, string name, string category)
         {
             try
             {
@@ -320,12 +361,15 @@ namespace HsrOrderApp.UI.PresentationLogic
                 request.SearchType = searchType;
                 request.ProductName = name;
                 request.Category = category;
-                GetProductsResponse response = Service.GetProductsByCriteria(request);
+                GetProductsResponse response = this.Service.GetProductsByCriteria(request);
                 return response.Products;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new List<ProductDTO>();
             }
         }
@@ -338,12 +382,15 @@ namespace HsrOrderApp.UI.PresentationLogic
         {
             try
             {
-                GetCurrentUserResponse response = Service.GetCurrentUser(new GetCurrentUserRequest());
+                GetCurrentUserResponse response = this.Service.GetCurrentUser(new GetCurrentUserRequest());
                 return response.User;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new CurrentUserDTO();
             }
         }
@@ -354,29 +401,32 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 GetUserRequest request = new GetUserRequest();
                 request.Id = id;
-                GetUserResponse response = Service.GetUserById(request);
+                GetUserResponse response = this.Service.GetUserById(request);
                 return response.User;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new UserDTO();
             }
         }
 
         public IList<UserListDTO> GetUsersByName(string name)
         {
-            return getUsers(UserSearchType.ByName, name, default(string));
+            return this.GetUsers(UserSearchType.ByName, name, default(string));
         }
 
         public IList<UserListDTO> GetUsersByRole(string role)
         {
-            return getUsers(UserSearchType.ByRole, default(string), role);
+            return this.GetUsers(UserSearchType.ByRole, default(string), role);
         }
 
         public IList<UserListDTO> GetAllUsers()
         {
-            return getUsers(UserSearchType.None, default(string), default(string));
+            return this.GetUsers(UserSearchType.None, default(string), default(string));
         }
 
         public void StoreUser(UserDTO user)
@@ -385,12 +435,15 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 StoreUserRequest request = new StoreUserRequest();
                 request.User = user;
-                StoreUserResponse response = Service.StoreUser(request);
+                StoreUserResponse response = this.Service.StoreUser(request);
                 user.Id = response.Id;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
@@ -400,11 +453,14 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 DeleteUserRequest request = new DeleteUserRequest();
                 request.Id = userId;
-                DeleteUserResponse response = Service.DeleteUser(request);
+                DeleteUserResponse response = this.Service.DeleteUser(request);
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
             }
         }
 
@@ -414,27 +470,30 @@ namespace HsrOrderApp.UI.PresentationLogic
             {
                 GetRoleRequest request = new GetRoleRequest();
                 request.RoleId = id;
-                GetRoleResponse response = Service.GetRoleById(request);
+                GetRoleResponse response = this.Service.GetRoleById(request);
                 return response.Role;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new RoleDTO();
             }
         }
 
         public IList<RoleDTO> GetRolesByName(string name)
         {
-            return getRoles(RoleSearchType.ByName, name, default(string));
+            return this.GetRoles(RoleSearchType.ByName, name, default(string));
         }
 
         public IList<RoleDTO> GetAllRoles()
         {
-            return getRoles(RoleSearchType.None, default(string), default(string));
+            return this.GetRoles(RoleSearchType.None, default(string), default(string));
         }
 
-        private IList<UserListDTO> getUsers(UserSearchType searchType, string name, string role)
+        private IList<UserListDTO> GetUsers(UserSearchType searchType, string name, string role)
         {
             try
             {
@@ -442,17 +501,20 @@ namespace HsrOrderApp.UI.PresentationLogic
                 request.SearchType = searchType;
                 request.Username = name;
                 request.Rolename = role;
-                GetUsersResponse response = Service.GetUsersByCriteria(request);
+                GetUsersResponse response = this.Service.GetUsersByCriteria(request);
                 return response.Users;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new List<UserListDTO>();
             }
         }
 
-        private IList<RoleDTO> getRoles(RoleSearchType searchType, string name, string role)
+        private IList<RoleDTO> GetRoles(RoleSearchType searchType, string name, string role)
         {
             try
             {
@@ -460,14 +522,36 @@ namespace HsrOrderApp.UI.PresentationLogic
                 request.SearchType = searchType;
                 request.Rolename = name;
                 request.Rolename = role;
-                GetRolesResponse response = Service.GetRolesByCriteria(request);
+                GetRolesResponse response = this.Service.GetRolesByCriteria(request);
                 return response.Roles;
             }
             catch (Exception ex)
             {
-                if (ExceptionPolicy.HandleException(ex, "PL Policy")) throw;
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
                 return new List<RoleDTO>();
             }
+        }
+
+        #endregion
+
+        #region Supplier
+
+        public IList<SupplierListDTO> GetAllSuppliers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StoreSupplier(SupplierDTO supplier)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteSupplier(int supplierId)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -476,7 +560,7 @@ namespace HsrOrderApp.UI.PresentationLogic
 
         public void Dispose()
         {
-            _service = null;
+            adminService = null;
         }
 
         #endregion
