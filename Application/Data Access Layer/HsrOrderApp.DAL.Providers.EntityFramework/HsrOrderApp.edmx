@@ -328,7 +328,7 @@
           <Property Name="City" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Customer" Relationship="HsrOrderAppModel.CustomerAddresses" FromRole="Addresses" ToRole="Customers" />
         </EntityType>
         <EntityType Name="Customer">
@@ -338,7 +338,7 @@
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Orders" Relationship="HsrOrderAppModel.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
           <NavigationProperty Name="User" Relationship="HsrOrderAppModel.FK_Users_Customers" FromRole="Customers" ToRole="Users" />
           <NavigationProperty Name="Addresses" Relationship="HsrOrderAppModel.CustomerAddresses" FromRole="Customers" ToRole="Addresses" />
@@ -350,7 +350,7 @@
           <Property Name="OrderDetailId" Type="Int32" Nullable="false" />
           <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="QuantityInUnits" Type="Int32" Nullable="false" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Order" Relationship="HsrOrderAppModel.FK_OrderDetails_Orders" FromRole="OrderDetails" ToRole="Orders" />
           <NavigationProperty Name="Product" Relationship="HsrOrderAppModel.FK_OrderDetails_Products" FromRole="OrderDetails" ToRole="Products" />
         </EntityType>
@@ -362,7 +362,7 @@
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
           <Property Name="ShippedDate" Type="DateTime" Precision="3" />
           <Property Name="OrderStatus" Type="Int32" Nullable="false" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Customer" Relationship="HsrOrderAppModel.FK_Orders_Customers" FromRole="Orders" ToRole="Customers" />
           <NavigationProperty Name="OrderDetails" Relationship="HsrOrderAppModel.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
         </EntityType>
@@ -377,7 +377,7 @@
           <Property Name="QuantityPerUnit" Type="Double" Nullable="false" />
           <Property Name="ListUnitPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="UnitsOnStock" Type="Int32" Nullable="false" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="OrderDetails" Relationship="HsrOrderAppModel.FK_OrderDetails_Products" FromRole="Products" ToRole="OrderDetails" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Suppliers" Relationship="HsrOrderAppModel.fk_supplier_products" FromRole="Product" ToRole="Suppliers" />
@@ -388,7 +388,7 @@
           </Key>
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Users" Relationship="HsrOrderAppModel.UserInRoles" FromRole="Roles" ToRole="Users" />
         </EntityType>
         <EntityType Name="User">
@@ -398,7 +398,7 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Password" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Customer" Relationship="HsrOrderAppModel.FK_Users_Customers" FromRole="Users" ToRole="Customers" />
           <NavigationProperty Name="Roles" Relationship="HsrOrderAppModel.UserInRoles" FromRole="Users" ToRole="Roles" />
         </EntityType>
@@ -438,7 +438,7 @@
           </Key>
           <Property Name="SupplierId" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" a:StoreGeneratedPattern="Computed" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" a:StoreGeneratedPattern="Computed" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Products" Relationship="HsrOrderAppModel.fk_supplier_products" FromRole="Suppliers" ToRole="Product" />
         </EntityType>
         <Association Name="fk_supplier_products">
