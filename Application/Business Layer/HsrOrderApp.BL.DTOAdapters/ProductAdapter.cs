@@ -26,6 +26,7 @@ namespace HsrOrderApp.BL.DtoAdapters
             ProductDTO dto = new ProductDTO()
                                  {
                                      Id = p.ProductId,
+                                     SupplierId = p.SupplierId,
                                      ProductNumber = p.ProductNumber,
                                      Name = p.Name,
                                      Category = p.Category,

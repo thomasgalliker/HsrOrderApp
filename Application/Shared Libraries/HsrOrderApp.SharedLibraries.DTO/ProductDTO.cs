@@ -117,5 +117,7 @@ namespace HsrOrderApp.SharedLibraries.DTO
                 }
             }
         }
+
+        public int SupplierId { get; set; }
     }
 }

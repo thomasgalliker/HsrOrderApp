@@ -13,6 +13,7 @@ namespace HsrOrderApp.BL.DomainModel
         public Product()
         {
             this.ProductId = default(int);
+            this.SupplierId = default(int);
             this.Name = string.Empty;
             this.ProductNumber = string.Empty;
             this.Category = string.Empty;
@@ -21,6 +22,8 @@ namespace HsrOrderApp.BL.DomainModel
         }
 
         public int ProductId { get; set; }
+
+        public int SupplierId { get; set; }
 
         [StringLengthValidator(1, 50)]
         public string Name { get; set; }
