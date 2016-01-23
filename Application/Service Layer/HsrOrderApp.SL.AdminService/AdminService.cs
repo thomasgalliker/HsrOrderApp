@@ -269,5 +269,22 @@ namespace HsrOrderApp.SL.AdminService
         }
 
         #endregion
+
+        #region Supplier
+
+        [PrincipalPermission(SecurityAction.Demand, Role = Roles.ADMIN)]
+        public GetRolesResponse GetSuppliersByProductId(GetRolesRequest request)
+        {
+            GetRolesResponse response = new GetRolesResponse();
+            SecurityBusinessComponent bc = DependencyInjectionHelper.GetSecurityBusinessComponent();
+
+            IQueryable<Role> roles = bc.GetRolesByCriteria(request.SearchType, request.Rolename);
+            response.Roles = SecurityAdapter.RolesToDTOs(roles);
+
+            return response;
+        }
+
+        #endregion
+
     }
 }

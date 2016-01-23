@@ -3,6 +3,8 @@
 using HsrOrderApp.BL.DomainModel.HelperObjects;
 using HsrOrderApp.SharedLibraries.SharedEnums;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -13,17 +15,15 @@ namespace HsrOrderApp.BL.DomainModel
         public Product()
         {
             this.ProductId = default(int);
-            this.SupplierId = default(int);
             this.Name = string.Empty;
             this.ProductNumber = string.Empty;
             this.Category = string.Empty;
             this.ListUnitPrice = default(decimal);
             this.QuantityPerUnit = default(double);
+           
         }
 
         public int ProductId { get; set; }
-
-        public int SupplierId { get; set; }
 
         [StringLengthValidator(1, 50)]
         public string Name { get; set; }
@@ -42,5 +42,7 @@ namespace HsrOrderApp.BL.DomainModel
 
         [RangeValidator(0, RangeBoundaryType.Inclusive, int.MaxValue, RangeBoundaryType.Inclusive)]
         public int UnitsOnStock { get; set; }
+
+        public IQueryable<SupplierCondition> SupplierConditions { get; set; }
     }
 }

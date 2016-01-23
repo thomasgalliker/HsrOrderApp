@@ -21,7 +21,7 @@ namespace HsrOrderApp.DAL.Providers.EntityFramework.Repositories.Adapters
             BL.DomainModel.Product product = new BL.DomainModel.Product()
                                                  {
                                                      ProductId = c.ProductId,
-                                                     SupplierId = c.SupplierId,
+                                                     SupplierConditions = SupplierAdapter.AdaptSupplierConditions(c.SupplierConditions),
                                                      Category = c.Category,
                                                      Name = c.Name,
                                                      ListUnitPrice = c.ListUnitPrice,
