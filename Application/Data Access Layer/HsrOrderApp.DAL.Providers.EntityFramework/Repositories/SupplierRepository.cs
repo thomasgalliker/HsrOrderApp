@@ -32,7 +32,20 @@ namespace HsrOrderApp.DAL.Providers.EntityFramework.Repositories
 
         public IQueryable<Supplier> GetAllSuppliers()
         {
-            throw new NotImplementedException();
+            var suppliers = from sc in this.db.SupplierConditions.AsEnumerable()
+                            join s in this.db.Suppliers on sc.SupplierId equals s.SupplierId
+                            select SupplierAdapter.AdaptSupplier(s);
+
+            return suppliers.AsQueryable();
+        }
+
+        public Supplier GetSupplierById(int supplierId)
+        {
+            var suppliers = from s in this.db.Suppliers.AsEnumerable()
+                            where s.SupplierId == supplierId
+                            select SupplierAdapter.AdaptSupplier(s);
+
+            return suppliers.Single();
         }
 
         public IQueryable<Supplier> GetSuppliersByProductId(int id)

@@ -13,6 +13,10 @@
     <DataTemplate  DataType="{x:Type vm:Product.ProductDetailViewModel}">
         <vw:ProductDetail  />
     </DataTemplate>
+
+    <DataTemplate  DataType="{x:Type vm:Supplier.SupplierDetailViewModel}">
+        <vw:SupplierDetail  />
+    </DataTemplate>
     
     <DataTemplate DataType="{x:Type vm:Order.OrderDetailViewModel}">
         <vw:OrderDetail  />

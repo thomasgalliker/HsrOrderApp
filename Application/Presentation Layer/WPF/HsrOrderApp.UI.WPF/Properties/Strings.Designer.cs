@@ -835,6 +835,33 @@ namespace HsrOrderApp.UI.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Produkte des Lieferanten.
+        /// </summary>
+        public static string SupplierDetailView_ProductsTitle {
+            get {
+                return ResourceManager.GetString("SupplierDetailView_ProductsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lieferant.
+        /// </summary>
+        public static string SupplierDetailView_Title {
+            get {
+                return ResourceManager.GetString("SupplierDetailView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lieferant Details.
+        /// </summary>
+        public static string SupplierDetailViewModel_DisplayName {
+            get {
+                return ResourceManager.GetString("SupplierDetailViewModel_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Verwalten Sie die Lieferanten:.
         /// </summary>
         public static string SupplierView_Decription {

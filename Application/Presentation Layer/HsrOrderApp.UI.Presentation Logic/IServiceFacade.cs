@@ -45,6 +45,8 @@ namespace HsrOrderApp.UI.PresentationLogic
         IList<RoleDTO> GetAllRoles();
 
         IList<SupplierListDTO> GetAllSuppliers();
+        SupplierDTO GetSupplierById(int id);
+        IList<SupplierListDTO> GetSuppliersByProductId(int productId);
         void StoreSupplier(SupplierDTO supplier);
         void DeleteSupplier(int supplierId);
     }

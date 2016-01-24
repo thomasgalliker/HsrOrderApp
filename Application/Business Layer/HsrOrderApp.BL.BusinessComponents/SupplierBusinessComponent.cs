@@ -20,9 +20,19 @@ namespace HsrOrderApp.BL.BusinessComponents
             this.rep = unitOfWork;
         }
 
+        public IQueryable<Supplier> GetAllSuppliers()
+        {
+            return this.rep.GetAllSuppliers();
+        }
+
+        public Supplier GetSupplierById(int supplierId)
+        {
+            return this.rep.GetSupplierById(supplierId);
+        }
+
         public IQueryable<Supplier> GetSuppliersByProductId(int id)
         {
-            return rep.GetSuppliersByProductId(id);
+            return this.rep.GetSuppliersByProductId(id);
         }
     }
 }

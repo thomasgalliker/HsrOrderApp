@@ -13,12 +13,13 @@ namespace HsrOrderApp.UI.WPF.ViewModels.Supplier
         public SupplierDetailViewModel(SupplierDTO supplier, bool isNew)
             : base(supplier, isNew)
         {
-            this.DisplayName = Strings.UserDetailViewModel_DisplayName;
+            this.DisplayName = Strings.SupplierDetailViewModel_DisplayName;
         }
 
         protected override void Load()
         {
             base.Load();
+            //TODO GATH: Show Products of supplier here
             ////this.Customers = this.Service.GetAllCustomers().ToList();
             ////this.Customers.Insert(0, new CustomerListDTO { Id = default(int), Name = "<Kein Lieferant>" });
         }

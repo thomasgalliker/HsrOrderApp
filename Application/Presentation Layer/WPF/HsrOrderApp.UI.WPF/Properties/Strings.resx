@@ -420,4 +420,13 @@
   <data name="SupplierView_Title" xml:space="preserve">
     <value>Lieferantenverwaltung</value>
   </data>
+  <data name="SupplierDetailViewModel_DisplayName" xml:space="preserve">
+    <value>Lieferant Details</value>
+  </data>
+  <data name="SupplierDetailView_ProductsTitle" xml:space="preserve">
+    <value>Produkte des Lieferanten</value>
+  </data>
+  <data name="SupplierDetailView_Title" xml:space="preserve">
+    <value>Lieferant</value>
+  </data>
 </root>

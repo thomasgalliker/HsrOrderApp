@@ -272,19 +272,42 @@ namespace HsrOrderApp.SL.AdminService
 
         #region Supplier
 
-        [PrincipalPermission(SecurityAction.Demand, Role = Roles.ADMIN)]
-        public GetRolesResponse GetSuppliersByProductId(GetRolesRequest request)
+        [PrincipalPermission(SecurityAction.Demand, Role = Roles.STAFF)]
+        public GetSuppliersResponse GetAllSuppliers(GetSuppliersRequest request)
         {
-            GetRolesResponse response = new GetRolesResponse();
-            SecurityBusinessComponent bc = DependencyInjectionHelper.GetSecurityBusinessComponent();
+            var bc = DependencyInjectionHelper.GetBusinessComponent<SupplierBusinessComponent>();
+            var suppliers = bc.GetAllSuppliers();
 
-            IQueryable<Role> roles = bc.GetRolesByCriteria(request.SearchType, request.Rolename);
-            response.Roles = SecurityAdapter.RolesToDTOs(roles);
+            var response = new GetSuppliersResponse();
+            response.Suppliers = SupplierAdapter.SuppliersToDtos(suppliers);
+
+            return response;
+        }
+
+        public GetSupplierResponse GetSupplierById(GetSupplierRequest request)
+        {
+            var bc = DependencyInjectionHelper.GetBusinessComponent<SupplierBusinessComponent>();
+            var supplier = bc.GetSupplierById(request.SupplierId);
+
+            var response = new GetSupplierResponse();
+            response.Supplier = SupplierAdapter.SupplierToDTO(supplier);
+
+            return response;
+        }
+
+
+        [PrincipalPermission(SecurityAction.Demand, Role = Roles.ADMIN)]
+        public GetSuppliersResponse GetSuppliersByProductId(GetSuppliersRequest request)
+        {
+            var bc = DependencyInjectionHelper.GetBusinessComponent<SupplierBusinessComponent>();
+            var suppliers = bc.GetSuppliersByProductId(request.ProductId);
+
+            var response = new GetSuppliersResponse();
+            response.Suppliers = SupplierAdapter.SuppliersToDtos(suppliers);
 
             return response;
         }
 
         #endregion
-
     }
 }

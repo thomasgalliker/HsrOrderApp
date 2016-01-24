@@ -541,7 +541,58 @@ namespace HsrOrderApp.UI.PresentationLogic
 
         public IList<SupplierListDTO> GetAllSuppliers()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var request = new GetSuppliersRequest();
+                var response = this.Service.GetAllSuppliers(request);
+                return response.Suppliers;
+            }
+            catch (Exception ex)
+            {
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
+                return new List<SupplierListDTO>();
+            }
+        }
+
+        public SupplierDTO GetSupplierById(int supplierId)
+        {
+            try
+            {
+                var request = new GetSupplierRequest();
+                request.SupplierId = supplierId;
+                var response = this.Service.GetSupplierById(request);
+                return response.Supplier;
+            }
+            catch (Exception ex)
+            {
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
+                return new SupplierDTO();
+            }
+        }
+
+        public IList<SupplierListDTO> GetSuppliersByProductId(int productId)
+        {
+            try
+            {
+                var request = new GetSuppliersRequest();
+                request.ProductId = productId;
+                var response = this.Service.GetSuppliersByProductId(request);
+                return response.Suppliers;
+            }
+            catch (Exception ex)
+            {
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
+                return new List<SupplierListDTO>();
+            }
         }
 
         public void StoreSupplier(SupplierDTO supplier)

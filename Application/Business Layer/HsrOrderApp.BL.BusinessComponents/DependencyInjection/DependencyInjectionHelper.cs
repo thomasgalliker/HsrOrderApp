@@ -47,28 +47,35 @@ namespace HsrOrderApp.BL.BusinessComponents.DependencyInjection
             }
         }
 
-        public static OrderBusinessComponent GetOrderBusinessComponent()
+        public static OrderBusinessComponent GetOrderBusinessComponent() // TODO: Use GetBusinessComponent<T>()
         {
             SetUnityContainer();
             OrderBusinessComponent orderBc = _unityContainer.Resolve<OrderBusinessComponent>();
             return orderBc;
         }
 
-        public static CustomerBusinessComponent GetCustomerBusinessComponent()
+        public static CustomerBusinessComponent GetCustomerBusinessComponent() // TODO: Use GetBusinessComponent<T>()
         {
             SetUnityContainer();
             CustomerBusinessComponent customerBC = _unityContainer.Resolve<CustomerBusinessComponent>();
             return customerBC;
         }
         
-        public static ProductBusinessComponent GetProductBusinessComponent()
+        public static ProductBusinessComponent GetProductBusinessComponent() // TODO: Use GetBusinessComponent<T>()
         {
             SetUnityContainer();
             ProductBusinessComponent productBC = _unityContainer.Resolve<ProductBusinessComponent>();
             return productBC;
         }
 
-        public static SecurityBusinessComponent GetSecurityBusinessComponent()
+        public static T GetBusinessComponent<T>()
+        {
+            SetUnityContainer();
+            var businessComponent = _unityContainer.Resolve<T>();
+            return businessComponent;
+        }
+
+        public static SecurityBusinessComponent GetSecurityBusinessComponent() // TODO: Use GetBusinessComponent<T>()
         {
             SetUnityContainer();
             SecurityBusinessComponent securityBC = _unityContainer.Resolve<SecurityBusinessComponent>();

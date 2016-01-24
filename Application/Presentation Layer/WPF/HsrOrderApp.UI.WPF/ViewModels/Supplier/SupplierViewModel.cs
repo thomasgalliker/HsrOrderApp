@@ -40,8 +40,8 @@ namespace HsrOrderApp.UI.WPF.ViewModels.Supplier
 
         protected override void Edit()
         {
-            var selectedDto = this.Service.GetUserById(this.SelectedItem.Id);
-            var detailModelView = new UserDetailViewModel(selectedDto, false);
+            var selectedDto = this.Service.GetSupplierById(this.SelectedItem.Id);
+            var detailModelView = new SupplierDetailViewModel(selectedDto, false);
             if (NavigationService.NavigateTo("Detail", detailModelView) == NavigationResult.Ok)
             {
                 this.Load();
