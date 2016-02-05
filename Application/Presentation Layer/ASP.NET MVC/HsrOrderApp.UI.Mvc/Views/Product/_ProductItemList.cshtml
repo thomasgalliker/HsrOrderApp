@@ -24,6 +24,9 @@
         <th>
             @Strings.ProductDetailView_UnitsOnStock
         </th>
+        <th>
+            @Strings.ProductDetailView_SupplierDetails
+        </th>
         <th></th>
     </tr>
 
@@ -47,6 +50,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UnitsOnStock)
+            </td>
+            <td>
+                @Html.ActionLink(@Strings.DetailsCommand, "Details", "Supplier", new { id = item.Id }, new { @class = "btn btn-default" })
             </td>
             <td>
                 @Html.ActionLink(@Strings.EditCommand, "Edit", new { id = item.Id }, new { @class = "btn btn-default" })

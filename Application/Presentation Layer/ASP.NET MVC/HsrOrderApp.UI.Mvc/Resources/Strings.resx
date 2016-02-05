@@ -501,4 +501,7 @@
   <data name="LogoutCommand" xml:space="preserve">
     <value>Abmelden</value>
   </data>
+  <data name="ProductDetailView_SupplierDetails" xml:space="preserve">
+    <value>Lieferanten</value>
+  </data>
 </root>

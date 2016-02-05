@@ -853,6 +853,15 @@ namespace HsrOrderApp.UI.Mvc.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lieferanten.
+        /// </summary>
+        public static string ProductDetailView_SupplierDetails {
+            get {
+                return ResourceManager.GetString("ProductDetailView_SupplierDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Produkt.
         /// </summary>
         public static string ProductDetailView_Title {
