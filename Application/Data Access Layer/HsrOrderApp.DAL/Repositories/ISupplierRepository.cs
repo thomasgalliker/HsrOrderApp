@@ -16,5 +16,7 @@ namespace HsrOrderApp.DAL.Repositories
         IQueryable<SupplierCondition> GetSupplierConditionsByProductId(int id);
         IQueryable<SupplierCondition> GetSupplierConditionsBySupplier(int id);
         IQueryable<SupplierCondition> GetAllSupplierConditions();
+
+        int SaveSupplier(Supplier supplier);
     }
 }

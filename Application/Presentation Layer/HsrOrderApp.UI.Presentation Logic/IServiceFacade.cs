@@ -27,6 +27,7 @@ namespace HsrOrderApp.UI.PresentationLogic
         ProductDTO GetProductById(int id);
         IList<ProductDTO> GetProductsByName(string name);
         IList<ProductDTO> GetProductsByCategory(string category);
+        IList<ProductDTO> GetProductsBySupplierId(int supplierId);
         IList<ProductDTO> GetAllProducts();
         void StoreProduct(ProductDTO product);
         void DeleteProduct(int productId);

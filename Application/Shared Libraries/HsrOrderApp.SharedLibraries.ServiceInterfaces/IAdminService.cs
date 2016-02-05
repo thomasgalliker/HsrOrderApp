@@ -76,6 +76,11 @@ namespace HsrOrderApp.SharedLibraries.ServiceInterfaces
         GetProductsResponse GetProductsByCriteria(GetProductsRequest request);
 
         [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        [FaultContract(typeof(ValidationFault))]
+        GetProductsBySupplierResponse GetProductsBySupplier(GetProductsBySupplier request);
+
+        [OperationContract]
         [FaultContract(typeof (ServiceFault))]
         [FaultContract(typeof (ValidationFault))]
         StoreProductResponse StoreProduct(StoreProductRequest request);
@@ -107,6 +112,11 @@ namespace HsrOrderApp.SharedLibraries.ServiceInterfaces
         [FaultContract(typeof(ServiceFault))]
         [FaultContract(typeof(ValidationFault))]
         GetSupplierResponse GetSupplierById(GetSupplierRequest request);
+
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        [FaultContract(typeof(ValidationFault))]
+        StoreSupplierResponse StoreSupplier(StoreSupplierRequeset request);
         #endregion
 
         #region Security 

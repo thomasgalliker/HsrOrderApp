@@ -34,5 +34,10 @@ namespace HsrOrderApp.BL.BusinessComponents
         {
             return this.rep.GetSuppliersByProductId(id);
         }
+
+        public int StoreSupplier(Supplier supplier)
+        {
+            return this.rep.SaveSupplier(supplier);
+        }
     }
 }

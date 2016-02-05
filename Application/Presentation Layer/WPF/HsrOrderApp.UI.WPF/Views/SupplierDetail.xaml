@@ -22,39 +22,44 @@
                 <RowDefinition />
     		</Grid.RowDefinitions>
     		<Grid.ColumnDefinitions>
-    			<ColumnDefinition />
-    			<ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+    			<ColumnDefinition Width="*" />
     		</Grid.ColumnDefinitions>
             <StackPanel Grid.ColumnSpan="2" Grid.Row="4" Orientation="Horizontal" Margin="0 20 0 0" Height="50">
                 <Image Height="40" Source="..\Icons\Product.png" Margin="20 0 0 0"/>
                 <TextBlock  Height="50" Padding="15" Text="{x:Static Properties:Strings.SupplierDetailView_ProductsTitle}" Style="{StaticResource ViewTitle}"/>
             </StackPanel>
             <Label Grid.Row="1" Grid.Column="0" Content="{x:Static Properties:Strings.SupplierDetailView_Name}"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Model.Name}" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
             
             <!--<Menu Grid.ColumnSpan="2" Grid.Row="5" Style="{StaticResource MenuStyle}" ItemsSource="{Binding ListViewModel.Commands}" Height="25" />-->
-            <ListView Grid.ColumnSpan="2" Grid.Row="6" Name="listView1" ItemsSource="{Binding ListViewModel.Items}" SelectedItem="{Binding ListViewModel.SelectedItem, Mode=TwoWay}" MinHeight="100">
+            <ListView Grid.ColumnSpan="2" Grid.Row="6" Grid.Column="0" Name="listView1"
+                      ItemsSource="{Binding ProductViewModel.Items}" 
+                      SelectedItem="{Binding ListViewModel.SelectedItem, Mode=TwoWay}"
+                      MinHeight="100">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="{x:Static Properties:Strings.OrderDetailDetailView_Product}" Width="150" DisplayMemberBinding="{ Binding ProductName}"/>
-                        <GridViewColumn Header="{x:Static Properties:Strings.OrderDetailDetailView_Quantity}" Width="100">
+                        <GridViewColumn Header="{x:Static Properties:Strings.ProductDetailView_ProductName}"  Width="150" DisplayMemberBinding="{ Binding Name}"/>
+                        <GridViewColumn Header="{x:Static Properties:Strings.ProductDetailView_ProductNumber}"  Width="100" DisplayMemberBinding="{ Binding ProductNumber}"/>
+                        <GridViewColumn Header="{x:Static Properties:Strings.ProductDetailView_Category}" Width="150" DisplayMemberBinding="{ Binding Category}"/>
+                        <GridViewColumn Header="{x:Static Properties:Strings.ProductDetailView_PricePerUnit}" Width="100">
                             <GridViewColumn.CellTemplate >
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding QuantityInUnits, Converter={StaticResource doubleConv}}"  TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding ListUnitPrice, Converter={StaticResource decimalConv}, ConverterParameter=false}" TextAlignment="Right"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static Properties:Strings.OrderDetailDetailView_Price}" Width="100" >
+                        <GridViewColumn Header="{x:Static Properties:Strings.ProductDetailView_QuantityPerUnit}" Width="110">
                             <GridViewColumn.CellTemplate >
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding UnitPrice, Converter={StaticResource currencyConv}}"  TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding QuantityPerUnit, Converter={StaticResource doubleConv}}"  TextAlignment="Right"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{x:Static Properties:Strings.OrderDetailDetailView_TotalPrice}" Width="100" >
+                        <GridViewColumn Header="{x:Static Properties:Strings.ProductDetailView_UnitsOnStock}" Width="100">
                             <GridViewColumn.CellTemplate >
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding TotalPrice, Converter={StaticResource currencyConv}}"  TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding UnitsOnStock, Converter={StaticResource doubleConv}}"  TextAlignment="Right"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

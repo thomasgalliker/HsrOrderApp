@@ -29,10 +29,19 @@ namespace HsrOrderApp.DAL.Providers.EntityFramework.Repositories
 
         public IQueryable<HsrOrderApp.BL.DomainModel.Product> GetAll()
         {
-            var Products = from c in this.db.ProductSet.AsEnumerable()
+            var products = from c in this.db.ProductSet.AsEnumerable()
                            select ProductAdapter.AdaptProduct(c);
 
-            return Products.AsQueryable();
+            return products.AsQueryable();
+        }
+
+        public IQueryable<BL.DomainModel.Product> GetProductsBySupplierId(int supplierId)
+        {
+            var products = this.db.ProductSet.Include("SupplierConditions")
+                .Where(p => p.SupplierConditions.Any(sc => sc.SupplierId == supplierId))
+                .Select(ProductAdapter.AdaptProduct);
+
+            return products.AsQueryable();
         }
 
         public HsrOrderApp.BL.DomainModel.Product GetById(int id)

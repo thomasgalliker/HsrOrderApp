@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using HsrOrderApp.BL.DomainModel;
 using HsrOrderApp.DAL.Repositories;
 using HsrOrderApp.DAL.Providers.EntityFramework.Repositories.Adapters;
+
+using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
 
 namespace HsrOrderApp.DAL.Providers.EntityFramework.Repositories
 {
@@ -32,11 +35,11 @@ namespace HsrOrderApp.DAL.Providers.EntityFramework.Repositories
 
         public IQueryable<Supplier> GetAllSuppliers()
         {
-            var suppliers = from sc in this.db.SupplierConditions.AsEnumerable()
-                            join s in this.db.Suppliers on sc.SupplierId equals s.SupplierId
+            var suppliers = from s in this.db.Suppliers.AsEnumerable()
                             select SupplierAdapter.AdaptSupplier(s);
 
-            return suppliers.AsQueryable();
+            var queryable = suppliers.AsQueryable();
+            return queryable;
         }
 
         public Supplier GetSupplierById(int supplierId)
@@ -71,6 +74,43 @@ namespace HsrOrderApp.DAL.Providers.EntityFramework.Repositories
         public IQueryable<SupplierCondition> GetAllSupplierConditions()
         {
             throw new NotImplementedException();
+        }
+
+        public int SaveSupplier(Supplier supplier)
+        {
+            try
+            {
+                string setname = "Suppliers";
+                Suppliers dbSupplier;
+
+                bool isNew = false;
+                if (supplier.SupplierId == default(int) || supplier.SupplierId <= 0)
+                {
+                    isNew = true;
+                    dbSupplier = new Suppliers();
+                }
+                else
+                {
+                    dbSupplier = new Suppliers { SupplierId = supplier.SupplierId, /*Version = supplier.Version.ToTimestamp() */};
+                    dbSupplier.EntityKey = db.CreateEntityKey(setname, dbSupplier);
+                    db.AttachTo(setname, dbSupplier);
+                    //db.Attach(dbSupplier);
+                }
+                dbSupplier.Name = supplier.Name;
+
+                if (isNew)
+                {
+                    db.Suppliers.AddObject(dbSupplier);
+                }
+                db.SaveChanges();
+                supplier.SupplierId = dbSupplier.SupplierId;
+                return dbSupplier.SupplierId;
+            }
+            catch (OptimisticConcurrencyException ex)
+            {
+                if (ExceptionPolicy.HandleException(ex, "DA Policy")) throw;
+                return default(int);
+            }
         }
 
         #endregion

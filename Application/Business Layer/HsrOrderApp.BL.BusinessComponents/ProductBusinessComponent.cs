@@ -2,11 +2,11 @@
 
 using System.Linq;
 using System.Transactions;
+
 using HsrOrderApp.BL.BusinessComponents.DependencyInjection;
 using HsrOrderApp.BL.DomainModel;
 using HsrOrderApp.DAL.Data.Repositories;
 using HsrOrderApp.SharedLibraries.SharedEnums;
-using System.Collections.Generic;
 
 #endregion
 
@@ -14,7 +14,7 @@ namespace HsrOrderApp.BL.BusinessComponents
 {
     public class ProductBusinessComponent
     {
-        private IProductRepository rep;
+        private readonly IProductRepository repository;
 
         public ProductBusinessComponent()
         {
@@ -22,17 +22,16 @@ namespace HsrOrderApp.BL.BusinessComponents
 
         public ProductBusinessComponent(IProductRepository unitOfWork)
         {
-            this.rep = unitOfWork;
+            this.repository = unitOfWork;
         }
 
         #region CRUD Operations
 
         public Product GetProductById(int productId)
         {
-            Product product = rep.GetById(productId);
+            Product product = this.repository.GetById(productId);
             return product;
         }
-
 
         public IQueryable<Product> GetProductsByCriteria(ProductSearchType searchType, string category, string productName)
         {
@@ -41,17 +40,22 @@ namespace HsrOrderApp.BL.BusinessComponents
             switch (searchType)
             {
                 case ProductSearchType.None:
-                    products = rep.GetAll();
+                    products = this.repository.GetAll();
                     break;
                 case ProductSearchType.ByCategory:
-                    products = rep.GetAll().Where(cu => cu.Category == category);
+                    products = this.repository.GetAll().Where(cu => cu.Category == category);
                     break;
                 case ProductSearchType.ByName:
-                    products = rep.GetAll().Where(cu => cu.Name == productName);
+                    products = this.repository.GetAll().Where(cu => cu.Name == productName);
                     break;
             }
 
             return products;
+        }
+
+        public IQueryable<Product> GetProductsBySupplierId(int supplierId)
+        {
+            return this.repository.GetProductsBySupplierId(supplierId);
         }
 
         public int StoreProduct(Product product)
@@ -59,7 +63,7 @@ namespace HsrOrderApp.BL.BusinessComponents
             int productId = default(int);
             using (TransactionScope transaction = new TransactionScope())
             {
-                productId = rep.SaveProduct(product);
+                productId = this.repository.SaveProduct(product);
                 transaction.Complete();
             }
 
@@ -68,29 +72,23 @@ namespace HsrOrderApp.BL.BusinessComponents
 
         public void DeleteProduct(int productId)
         {
-            rep.DeleteProduct(productId);
+            this.repository.DeleteProduct(productId);
         }
 
         #endregion
 
-        public IProductRepository Repository
-        {
-            get { return this.rep; }
-            set { this.rep = value; }
-        }
-
         public void GetEstimatedDeliveryTime(int productId, out int unitsAvailable, out int estimatedDeliveryTimeInDays)
         {
             OrderBusinessComponent orderBC = DependencyInjectionHelper.GetOrderBusinessComponent();
-            Product product = rep.GetById(productId);
+            Product product = this.repository.GetById(productId);
 
-            int unitsOrdered = orderBC.GetAllOrderDetails()
-                .Where(od => od.Product.ProductId == product.ProductId)
-                .Sum(od => od.QuantityInUnits);
+            int unitsOrdered = orderBC.GetAllOrderDetails().Where(od => od.Product.ProductId == product.ProductId).Sum(od => od.QuantityInUnits);
 
             unitsAvailable = product.UnitsOnStock - unitsOrdered;
-            if ((unitsAvailable) < 0) 
+            if ((unitsAvailable) < 0)
+            {
                 unitsAvailable = 0;
+            }
 
             estimatedDeliveryTimeInDays = -1;
             // Todo: Implement the logic to calculate the estimatedDelivertyTimeInDays (see SupplierCondition)

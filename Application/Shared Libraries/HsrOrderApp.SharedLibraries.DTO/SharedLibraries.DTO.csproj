@@ -101,6 +101,8 @@
     <Compile Include="OrderDetailDTO.cs" />
     <Compile Include="OrderDTO.cs" />
     <Compile Include="OrderListDTO.cs" />
+    <Compile Include="Requests_Responses\GetProductsBySupplierResponse.cs" />
+    <Compile Include="Requests_Responses\GetProductsBySupplier.cs" />
     <Compile Include="Requests_Responses\GetSupplierRequest.cs" />
     <Compile Include="Requests_Responses\GetSupplierResponse.cs" />
     <Compile Include="Requests_Responses\GetEstimatedDeliveryTimeResponse.cs" />
@@ -136,6 +138,8 @@
     <Compile Include="Requests_Responses\DeleteProductResponse.cs" />
     <Compile Include="Requests_Responses\GetProductsRequest.cs" />
     <Compile Include="Requests_Responses\GetProductsResponse.cs" />
+    <Compile Include="Requests_Responses\StoreSupplierResponse.cs" />
+    <Compile Include="Requests_Responses\StoreSupplierRequeset.cs" />
     <Compile Include="Requests_Responses\StoreProductRequest.cs" />
     <Compile Include="Requests_Responses\StoreProductResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

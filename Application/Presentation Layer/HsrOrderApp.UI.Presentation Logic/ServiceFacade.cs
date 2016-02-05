@@ -292,6 +292,25 @@ namespace HsrOrderApp.UI.PresentationLogic
             return this.GetProducts(ProductSearchType.ByCategory, default(string), category);
         }
 
+        public IList<ProductDTO> GetProductsBySupplierId(int supplierId)
+        {
+            try
+            {
+                var request = new GetProductsBySupplier();
+                request.SupplierId = supplierId;
+                var response = this.Service.GetProductsBySupplier(request);
+                return response.Products;
+            }
+            catch (Exception ex)
+            {
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
+                return new List<ProductDTO>();
+            }
+        }
+
         public IList<ProductDTO> GetAllProducts()
         {
             return this.GetProducts(ProductSearchType.None, default(string), default(string));
@@ -597,7 +616,20 @@ namespace HsrOrderApp.UI.PresentationLogic
 
         public void StoreSupplier(SupplierDTO supplier)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var request = new StoreSupplierRequeset();
+                request.Supplier = supplier;
+                var response = this.Service.StoreSupplier(request);
+                supplier.Id = response.Id;
+            }
+            catch (Exception ex)
+            {
+                if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
+            }
         }
 
         public void DeleteSupplier(int supplierId)

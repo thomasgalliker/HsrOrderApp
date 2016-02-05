@@ -145,6 +145,18 @@ namespace HsrOrderApp.SL.AdminService
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = Roles.STAFF)]
+        public GetProductsBySupplierResponse GetProductsBySupplier(GetProductsBySupplier request)
+        {
+            var response = new GetProductsBySupplierResponse();
+            ProductBusinessComponent bc = DependencyInjectionHelper.GetProductBusinessComponent();
+
+            IQueryable<Product> products = bc.GetProductsBySupplierId(request.SupplierId);
+            response.Products = ProductAdapter.ProductsToDtos(products);
+
+            return response;
+        }
+
+        [PrincipalPermission(SecurityAction.Demand, Role = Roles.STAFF)]
         public StoreProductResponse StoreProduct(StoreProductRequest request)
         {
             StoreProductResponse response = new StoreProductResponse();
@@ -308,6 +320,17 @@ namespace HsrOrderApp.SL.AdminService
             return response;
         }
 
+
+        public StoreSupplierResponse StoreSupplier(StoreSupplierRequeset request)
+        {
+            var response = new StoreSupplierResponse();
+            var bc = DependencyInjectionHelper.GetBusinessComponent<SupplierBusinessComponent>();
+
+            var supplier = SupplierAdapter.DtoToSupplier(request.Supplier);
+            response.Id = bc.StoreSupplier(supplier);
+
+            return response;
+        }
         #endregion
     }
 }

@@ -30,6 +30,11 @@ namespace HsrOrderApp.DAL.Providers.LinqToSql.Repositories
             return products;
         }
 
+        public IQueryable<BL.DomainModel.Product> GetProductsBySupplierId(int supplierId)
+        {
+            throw new NotImplementedException();
+        }
+
         public HsrOrderApp.BL.DomainModel.Product GetById(int id)
         {
             try
