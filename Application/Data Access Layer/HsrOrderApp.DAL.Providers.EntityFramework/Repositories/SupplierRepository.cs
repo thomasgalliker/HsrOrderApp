@@ -113,6 +113,32 @@ namespace HsrOrderApp.DAL.Providers.EntityFramework.Repositories
             }
         }
 
+        public bool LinkSupplierToProduct(int supplierId, int prodId)
+        {
+            if (supplierId <= 0 || prodId <= 0) {
+                return false;
+            }
+
+            try
+            {
+                db.SupplierConditions.AddObject(new SupplierConditions()
+                {
+                    SupplierId = supplierId,
+                    ProductId = prodId
+                });
+
+                db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                // General Exception handling - to be done
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
     }
 }

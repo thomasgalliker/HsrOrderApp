@@ -101,6 +101,8 @@
     <Compile Include="OrderDetailDTO.cs" />
     <Compile Include="OrderDTO.cs" />
     <Compile Include="OrderListDTO.cs" />
+    <Compile Include="Requests_Responses\CreateSupplierWithLinkToProductRequest.cs" />
+    <Compile Include="Requests_Responses\CreateSupplierWithLinkToProductResponse.cs" />
     <Compile Include="Requests_Responses\GetProductsBySupplierResponse.cs" />
     <Compile Include="Requests_Responses\GetProductsBySupplier.cs" />
     <Compile Include="Requests_Responses\GetSupplierRequest.cs" />

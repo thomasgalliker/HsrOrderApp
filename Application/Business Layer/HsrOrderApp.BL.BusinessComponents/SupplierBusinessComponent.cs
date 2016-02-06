@@ -39,5 +39,18 @@ namespace HsrOrderApp.BL.BusinessComponents
         {
             return this.rep.SaveSupplier(supplier);
         }
+
+        public bool LinkSupplierToProduct(int supplierId, int prodId)
+        {
+            return this.rep.LinkSupplierToProduct(supplierId, prodId);
+        }
+
+        public bool CreateNewSupplierWithLinkToProductById(int prodId, string supplierName) {
+            int supplierId = this.rep.SaveSupplier(new Supplier()
+            {
+                Name = supplierName
+            });
+            return this.rep.LinkSupplierToProduct(supplierId, prodId);
+        }
     }
 }

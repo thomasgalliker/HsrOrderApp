@@ -307,6 +307,16 @@ namespace HsrOrderApp.SL.AdminService
             return response;
         }
 
+        public CreateSupplierWithLinkToProductResponse CreateNewSupplierWithLinkToProductById(CreateSupplierWithLinkToProductRequest request)
+        {
+            var bc = DependencyInjectionHelper.GetBusinessComponent<SupplierBusinessComponent>();
+
+            var response = new CreateSupplierWithLinkToProductResponse();
+            response.IsCreated = bc.CreateNewSupplierWithLinkToProductById(request.ProductId, request.SupplierName);
+
+            return response;
+        }
+
 
         [PrincipalPermission(SecurityAction.Demand, Role = Roles.ADMIN)]
         public GetSuppliersResponse GetSuppliersByProductId(GetSuppliersRequest request)

@@ -117,6 +117,11 @@ namespace HsrOrderApp.SharedLibraries.ServiceInterfaces
         [FaultContract(typeof(ServiceFault))]
         [FaultContract(typeof(ValidationFault))]
         StoreSupplierResponse StoreSupplier(StoreSupplierRequeset request);
+
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        [FaultContract(typeof(ValidationFault))]
+        CreateSupplierWithLinkToProductResponse CreateNewSupplierWithLinkToProductById(CreateSupplierWithLinkToProductRequest request);
         #endregion
 
         #region Security 

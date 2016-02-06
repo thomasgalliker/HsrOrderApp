@@ -50,5 +50,6 @@ namespace HsrOrderApp.UI.PresentationLogic
         IList<SupplierListDTO> GetSuppliersByProductId(int productId);
         void StoreSupplier(SupplierDTO supplier);
         void DeleteSupplier(int supplierId);
+        bool CreateNewSupplierWithLinkToProductById(int prodId, string supplierName);
     }
 }

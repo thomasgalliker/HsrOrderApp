@@ -637,6 +637,27 @@ namespace HsrOrderApp.UI.PresentationLogic
             throw new NotImplementedException();
         }
 
+        public bool CreateNewSupplierWithLinkToProductById(int prodId, string supplierName)
+        {
+            try
+            {
+                var request = new CreateSupplierWithLinkToProductRequest();
+                request.ProductId = prodId;
+                request.SupplierName = supplierName;
+                var response = this.Service.CreateNewSupplierWithLinkToProductById(request);
+                return response.IsCreated;
+            }
+            catch (Exception ex)
+            {
+                 if (ExceptionPolicy.HandleException(ex, "PL Policy"))
+                {
+                    throw;
+                }
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region IServiceFacade Members

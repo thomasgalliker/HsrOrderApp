@@ -58,9 +58,15 @@ namespace HsrOrderApp.UI.Mvc.Controllers
         [HttpPost]
         public ActionResult Create(SupplierViewModel vmChanged)
         {
-            // TODO: Store Supplier
-            //ProductViewModel vm = DisplayDetails(vmChanged);
-            return null;
+            int prodId;
+            if (int.TryParse(vmChanged.prevProdId, out prodId) && !string.IsNullOrEmpty(vmChanged.Model.Name))
+            {
+                if (Service.CreateNewSupplierWithLinkToProductById(prodId, vmChanged.Model.Name)) {
+                    return RedirectToRoute("Default", new { controller = "Supplier", action = "Details", id = vmChanged.prevProdId });
+                } 
+            }
+
+            return View("Error");
         }
 
     }
